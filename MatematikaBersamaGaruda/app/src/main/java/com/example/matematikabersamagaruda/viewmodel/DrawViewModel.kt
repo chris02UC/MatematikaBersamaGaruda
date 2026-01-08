@@ -12,6 +12,7 @@ import android.graphics.Color
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.tensorflow.lite.Interpreter
@@ -21,8 +22,6 @@ import kotlin.math.min
 import kotlin.math.max
 
 class DrawViewModel(application: Application) : AndroidViewModel(application) {
-
-
     private val tflite: Interpreter by lazy {
         val afd = getApplication<Application>().assets.openFd("handwritelogic.tflite")
         val channel = afd.createInputStream().channel
@@ -50,12 +49,26 @@ class DrawViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun endStroke() {
-        val newStrokes = uiState.allStrokes + listOf(uiState.currentStroke)
+        val finishedStroke = uiState.currentStroke
+
+        // 1. Analyze the number immediately
+        if (finishedStroke.isNotEmpty()) {
+            recognizeDigit(finishedStroke)
+        }
+
+        // 2. Move stroke to 'allStrokes' so it stays visible during the delay
         uiState = uiState.copy(
             currentStroke = emptyList(),
-            allStrokes = newStrokes
+            allStrokes = listOf(finishedStroke)
         )
-        recognizeDigit(newStrokes.last())
+
+        // 3. Wait 300ms then clear the board
+        viewModelScope.launch {
+            delay(300)
+            uiState = uiState.copy(
+                allStrokes = emptyList()
+            )
+        }
     }
 
     private fun recognizeDigit(stroke: List<Pair<Float,Float>>) {
@@ -81,10 +94,10 @@ class DrawViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     private fun preprocess(strokes: List<List<Pair<Float, Float>>>): Bitmap {
-        // 1) Render strokes at High Resolution (500x500) to preserve detail
+        // 1) Render strokes at High Resolution (500x500)
         val rawHighRes = convertStrokesToBitmap(strokes)
 
-        // 2) Find bounding box of white pixels on the HIGH RES bitmap
+        // 2) Find bounding box of white pixels on the high res bitmap
         var minX = rawHighRes.width
         var minY = rawHighRes.height
         var maxX = 0
@@ -92,7 +105,7 @@ class DrawViewModel(application: Application) : AndroidViewModel(application) {
 
         for (y in 0 until rawHighRes.height) {
             for (x in 0 until rawHighRes.width) {
-                // Check if pixel is not black (contains some drawing)
+                // Check if pixel is not black
                 // Using simple threshold or check for WHITE
                 if (rawHighRes.getPixel(x, y) != AndroidColor.BLACK) {
                     minX = min(minX, x)
@@ -103,12 +116,11 @@ class DrawViewModel(application: Application) : AndroidViewModel(application) {
             }
         }
 
-        // If nothing drawn, return a blank 28x28 bitmap
         if (maxX < minX || maxY < minY) {
             return Bitmap.createScaledBitmap(rawHighRes, 28, 28, true)
         }
 
-        // 3) Crop to bounding box (High Resolution)
+        // 3) Crop to bounding box
         val w = maxX - minX + 1
         val h = maxY - minY + 1
         val cropped = Bitmap.createBitmap(rawHighRes, minX, minY, w, h)
@@ -119,14 +131,12 @@ class DrawViewModel(application: Application) : AndroidViewModel(application) {
         val newW = (w * scale).toInt()
         val newH = (h * scale).toInt()
 
-        // Use filter=true for smooth downscaling
         val resized = Bitmap.createScaledBitmap(cropped, newW, newH, true)
 
         // 5) Center by Center of Mass in 28x28 black canvas
         val output = Bitmap.createBitmap(28, 28, Bitmap.Config.ARGB_8888)
         val canvas = AndroidCanvas(output).apply { drawColor(AndroidColor.BLACK) }
 
-        // Calculate Center of Mass
         var sumX = 0f
         var sumY = 0f
         var totalMass = 0f
@@ -134,7 +144,6 @@ class DrawViewModel(application: Application) : AndroidViewModel(application) {
         for (y in 0 until newH) {
             for (x in 0 until newW) {
                 val pixel = resized.getPixel(x, y)
-                // Calculate brightness (0.0 to 255.0)
                 val mass = (AndroidColor.red(pixel) + AndroidColor.green(pixel) + AndroidColor.blue(pixel)) / 3f
                 sumX += x * mass
                 sumY += y * mass
