@@ -51,7 +51,6 @@ fun QuizDrawPage(
             modifier = Modifier.fillMaxSize().padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            // 1. Countdown Timer Display
             Text("Time Left", fontSize = 18.sp, color = Color(0xFF2B2D42).copy(alpha = 0.6f))
             Text(
                 "${vm.timeLeft}s",
@@ -62,7 +61,6 @@ fun QuizDrawPage(
 
             Spacer(Modifier.height(16.dp))
 
-            // 2. Question Text
             Text(
                 text = vm.currentQuestion.displayText(),
                 fontSize = 50.sp,
@@ -72,18 +70,16 @@ fun QuizDrawPage(
 
             Spacer(Modifier.height(12.dp))
 
-            // 3. Inner UI Container
             Card(
-                Modifier.fillMaxWidth(), // Removed fillMaxHeight(0.95f) to let it wrap content naturally
+                Modifier.fillMaxWidth(),
                 colors = CardDefaults.cardColors(containerColor = Color(0xFF8D99AE)),
                 shape = RoundedCornerShape(24.dp),
                 elevation = CardDefaults.cardElevation(4.dp)
             ) {
                 Column(
-                    Modifier.padding(12.dp), // Removed fillMaxSize() to let it wrap content
+                    Modifier.padding(12.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    // Recognized Input Bar
                     Box(
                         Modifier
                             .fillMaxWidth()
@@ -102,7 +98,6 @@ fun QuizDrawPage(
 
                     Spacer(Modifier.height(12.dp))
 
-                    // Decorative separator line
                     Canvas(Modifier.fillMaxWidth().height(16.dp)) {
                         val stroke = 2.dp.toPx()
                         val r = size.height / 2
@@ -114,7 +109,6 @@ fun QuizDrawPage(
 
                     Spacer(Modifier.height(8.dp))
 
-                    // 4. Black Drawing Pad (User Input Box)
                     Box(
                         Modifier
                             .fillMaxWidth()
@@ -157,11 +151,8 @@ fun QuizDrawPage(
                         }
                     }
 
-                    // --- THE FIX IS HERE ---
-                    // Replaced Spacer(Modifier.weight(1f)) with a fixed height spacer
                     Spacer(Modifier.height(24.dp))
 
-                    // 5. Side-by-Side Action Buttons
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.spacedBy(12.dp)

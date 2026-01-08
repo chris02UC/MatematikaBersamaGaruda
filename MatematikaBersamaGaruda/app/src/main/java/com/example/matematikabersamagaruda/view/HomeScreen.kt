@@ -23,7 +23,7 @@ import com.example.matematikabersamagaruda.R
 fun HomeScreen(navController: NavController) {
     Surface(
         modifier = Modifier.fillMaxSize(),
-        color = Color(0xFFEDF2F4) // Global background color
+        color = Color(0xFFEDF2F4)
     ) {
         Column(
             modifier = Modifier
@@ -32,7 +32,6 @@ fun HomeScreen(navController: NavController) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            // Garuda Image
             Image(
                 painter = painterResource(id = R.drawable.garuda),
                 contentDescription = "Garuda Bird",
@@ -41,7 +40,6 @@ fun HomeScreen(navController: NavController) {
 
             Spacer(modifier = Modifier.height(12.dp))
 
-            // Title Text
             Text(
                 text = "Matematika\nBersama Garuda",
                 fontSize = 32.sp,
@@ -53,8 +51,6 @@ fun HomeScreen(navController: NavController) {
 
             Spacer(modifier = Modifier.height(32.dp))
 
-            // Quiz Mode Button (Large Red)
-            // Aspect Ratio 1.5 matches 360/240 from Figma
             Button(
                 onClick = { navController.navigate("quizmodestart") },
                 modifier = Modifier
@@ -74,7 +70,6 @@ fun HomeScreen(navController: NavController) {
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            // Zen Mode Button (Large Black)
             Button(
                 onClick = { navController.navigate("zenmodestart") },
                 modifier = Modifier

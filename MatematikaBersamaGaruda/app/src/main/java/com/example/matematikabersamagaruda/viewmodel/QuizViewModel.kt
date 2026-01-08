@@ -55,7 +55,6 @@ class QuizViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    // Pass-through functions for the drawing pad
     fun startStroke(x: Float, y: Float) = drawViewModel.startStroke(x, y)
     fun addPoint(x: Float, y: Float) = drawViewModel.addPointToStroke(x, y)
     fun endStroke() = drawViewModel.endStroke()

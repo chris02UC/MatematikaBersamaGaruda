@@ -16,20 +16,18 @@ import androidx.navigation.NavController
 fun ZenResultsPage(navController: NavController, score: Int) {
     Surface(
         modifier = Modifier.fillMaxSize(),
-        color = Color(0xFFEDF2F4) // Light gray background
+        color = Color(0xFFEDF2F4)
     ) {
-        // Center the main card
         Box(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
-            // The main dark card
             Surface(
                 modifier = Modifier
-                    .fillMaxWidth(0.85f) // Adjust width as needed
+                    .fillMaxWidth(0.85f)
                     .wrapContentHeight(),
                 shape = RoundedCornerShape(24.dp),
-                color = Color(0xFF2B2D42), // Dark blue color
+                color = Color(0xFF2B2D42),
                 shadowElevation = 8.dp
             ) {
                 Column(
@@ -61,7 +59,6 @@ fun ZenResultsPage(navController: NavController, score: Int) {
 
                     Spacer(modifier = Modifier.height(48.dp))
 
-                    // Back to Main Menu Button
                     Button(
                         onClick = {
                             navController.navigate("home") {

@@ -31,7 +31,6 @@ class DrawViewModel(application: Application) : AndroidViewModel(application) {
             afd.declaredLength
         )
 
-        // LiteRT’s Interpreter supports the newer ops out of the box
         Interpreter(buf)
     }
 

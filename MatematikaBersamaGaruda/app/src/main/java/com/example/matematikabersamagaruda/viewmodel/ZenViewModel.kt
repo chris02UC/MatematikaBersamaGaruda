@@ -13,7 +13,6 @@ class ZenViewModel(application: Application) : AndroidViewModel(application) {
     var currentQuestion by mutableStateOf(Question.generate(false))
         private set
 
-    // New: Track the number of correct answers
     var correctCount by mutableStateOf(0)
         private set
 
@@ -22,12 +21,12 @@ class ZenViewModel(application: Application) : AndroidViewModel(application) {
 
     fun startZenMode(isHard: Boolean) {
         currentQuestion = Question.generate(isHard)
-        correctCount = 0 // Reset score for new session
+        correctCount = 0
         clearCanvas()
     }
 
     fun nextQuestion(isHard: Boolean) {
-        correctCount++ // Increment score
+        correctCount++
         currentQuestion = Question.generate(isHard)
         clearCanvas()
     }
@@ -40,7 +39,6 @@ class ZenViewModel(application: Application) : AndroidViewModel(application) {
         drawViewModel.addPointToStroke(x, y)
     }
 
-    // RELAXED: Just trigger the recognition, don't check the answer here
     fun endStroke() {
         drawViewModel.endStroke()
     }

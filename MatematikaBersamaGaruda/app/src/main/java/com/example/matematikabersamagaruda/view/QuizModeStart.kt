@@ -47,7 +47,6 @@ fun QuizModeStart(navController: NavController) {
 
             Spacer(Modifier.height(48.dp))
 
-            // Buttons navigate to the DrawPage with 3 parameters: isHard, time, count
             Button(
                 onClick = { navController.navigate("quizdrawpage/false/$timerInput/$questionCountInput") },
                 modifier = Modifier.fillMaxWidth().height(80.dp),

@@ -22,27 +22,22 @@ class MainActivity : ComponentActivity() {
         setContent {
             val navController = rememberNavController()
 
-            // Set up the Navigation Host
             NavHost(navController = navController, startDestination = "home") {
 
-                // 1. Home Screen
                 composable("home") {
                     HomeScreen(navController)
                 }
 
-                // 3. Zen Mode Difficulty Selection Screen
                 composable("zenmodestart") {
                     ZenModeStart(navController)
                 }
 
-                // 4. Zen Mode Drawing Screen (with isHard logic)
                 composable(
                     route = "zendrawpage/{isHard}",
                     arguments = listOf(navArgument("isHard") { type = NavType.BoolType })
                 ) { backStackEntry ->
                     val isHard = backStackEntry.arguments?.getBoolean("isHard") ?: false
 
-                    // Navigates to the drawing page with the difficulty level
                     ZenDrawPage(navController = navController, isHard = isHard)
                 }
                 composable(
@@ -52,9 +47,7 @@ class MainActivity : ComponentActivity() {
                     val score = backStackEntry.arguments?.getInt("score") ?: 0
                     ZenResultsPage(navController, score)
                 }
-                // Inside your NavHost in MainActivity.kt
                 composable("quizmodestart") {
-                    // Pass the navController here to fix the error
                     QuizModeStart(navController = navController)
                 }
 

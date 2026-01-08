@@ -37,12 +37,11 @@ fun ZenDrawPage(
     val state = vm.drawUiState
     var canvasSize by remember { mutableStateOf(IntSize.Zero) }
 
-    // Auto-submit logic: monitors AI recognizedDigits and current question answer
     LaunchedEffect(state.recognizedDigits, vm.currentQuestion) {
         val input = state.recognizedDigits
         val answer = vm.currentQuestion.answer
         if (input.isNotEmpty() && input.toIntOrNull() == answer) {
-            vm.nextQuestion(isHard) // Increments score and resets board
+            vm.nextQuestion(isHard)
         }
     }
 
@@ -52,7 +51,7 @@ fun ZenDrawPage(
 
     Surface(
         modifier = Modifier.fillMaxSize(),
-        color = Color(0xFFEDF2F4) // New background color
+        color = Color(0xFFEDF2F4)
     ) {
         Column(
             modifier = Modifier
@@ -60,7 +59,6 @@ fun ZenDrawPage(
                 .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            // 1. Top Row: Back Button (from old UI style)
             Box(
                 Modifier
                     .align(Alignment.Start)
@@ -79,7 +77,6 @@ fun ZenDrawPage(
 
             Spacer(Modifier.height(20.dp))
 
-            // 2. Middle Counter: Replaces Timer from old UI
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Text(
                     "Solved",
@@ -97,7 +94,6 @@ fun ZenDrawPage(
 
             Spacer(Modifier.height(20.dp))
 
-            // 3. Question text (Scaled down to 50sp for 4-digit fit)
             Text(
                 text = vm.currentQuestion.displayText(),
                 fontSize = 50.sp,
@@ -107,7 +103,6 @@ fun ZenDrawPage(
 
             Spacer(Modifier.height(16.dp))
 
-            // 4. Main Card (Replicating VersusViewDraw layout)
             Card(
                 Modifier.fillMaxWidth().fillMaxHeight(0.9f),
                 colors = CardDefaults.cardColors(containerColor = Color(0xFF8D99AE)),
@@ -118,7 +113,6 @@ fun ZenDrawPage(
                     Modifier.fillMaxSize().padding(12.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    // Recognized digits display bar
                     Box(
                         Modifier
                             .fillMaxWidth()
@@ -137,7 +131,6 @@ fun ZenDrawPage(
 
                     Spacer(Modifier.height(12.dp))
 
-                    // Decorative separator from old code
                     Canvas(Modifier.fillMaxWidth().height(16.dp)) {
                         val stroke = 2.dp.toPx()
                         val r = size.height / 2
@@ -149,7 +142,6 @@ fun ZenDrawPage(
 
                     Spacer(Modifier.height(8.dp))
 
-                    // Black Input Pad
                     Box(
                         Modifier
                             .fillMaxWidth()
@@ -185,7 +177,6 @@ fun ZenDrawPage(
 
                     Spacer(Modifier.weight(1f))
 
-                    // Red Clear Button
                     Button(
                         onClick = { vm.clearCanvas() },
                         modifier = Modifier.fillMaxWidth().height(60.dp),
