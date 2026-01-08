@@ -22,8 +22,11 @@ To address this, Matematika Bersama Garuda utilizes a handwriting-based interfac
 
 1. Launch the application to reach the **Home Screen**.
 2. Select a gameplay mode:
-* **Quiz Mode**: A competitive environment to test speed and accuracy.
-* **Zen Mode**: A focused practice mode.
+* **Quiz Mode**: 
+    * **Setup**: On the setup screen, you can customize the session by entering the desired Timer (seconds) and the Number of Questions.
+    * **Difficulty**: Start the session by selecting either Easy Quiz or Hard Quiz.
+* **Zen Mode**:
+    * **Difficulty**: Choose between Easy Mode or Hard Mode for a focused practice session without time or question limits.
 3. Solve the presented mathematical problems by drawing the digits (0-9) directly onto the screen's canvas.
 4. The AI agent will automatically recognize your handwriting and update the game state based on your answer.
 
