@@ -14,22 +14,42 @@ import androidx.navigation.NavController
 
 @Composable
 fun QuizResultsPage(navController: NavController, right: Int, total: Int) {
-    val percentage = if (total > 0) (right.toFloat() / total.toFloat() * 100).toInt() else 0
+    val percentage = if (total > 0) (right.toFloat() / total.toFloat() * 100) else 0f
 
     Surface(modifier = Modifier.fillMaxSize(), color = Color(0xFFEDF2F4)) {
-        Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
-            Text("Quiz Result", fontSize = 40.sp, fontWeight = FontWeight.Bold)
+        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+            Surface(
+                modifier = Modifier.padding(24.dp),
+                shape = RoundedCornerShape(16.dp),
+                color = Color(0xFF2B2D42)
+            ) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center,
+                    modifier = Modifier.padding(24.dp)
+                ) {
+                    Text("Results", fontSize = 40.sp, fontWeight = FontWeight.Bold, color = Color.White)
 
-            Spacer(Modifier.height(24.dp))
+                    Spacer(Modifier.height(24.dp))
 
-            Text("$percentage%", fontSize = 80.sp, fontWeight = FontWeight.Black, color = Color(0xFFD90429))
+                    Text("${String.format("%.1f", percentage)}%", fontSize = 64.sp, fontWeight = FontWeight.Black, color = Color.White)
 
-            Text("You got $right out of $total correct!", fontSize = 24.sp)
+                    Spacer(Modifier.height(16.dp))
 
-            Spacer(Modifier.height(48.dp))
+                    Text("$right out of $total", fontSize = 24.sp, fontWeight = FontWeight.Bold, color = Color.White)
+                    Text("questions answered correctly", fontSize = 16.sp, color = Color.White)
 
-            Button(onClick = { navController.navigate("home") { popUpTo("home") { inclusive = true } } }) {
-                Text("Back to Menu")
+                    Spacer(Modifier.height(48.dp))
+
+                    Button(
+                        onClick = { navController.navigate("home") { popUpTo("home") { inclusive = true } } },
+                        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFD90429)),
+                        shape = RoundedCornerShape(8.dp),
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Text("Back to Main Menu", fontSize = 18.sp, fontWeight = FontWeight.Bold)
+                    }
+                }
             }
         }
     }

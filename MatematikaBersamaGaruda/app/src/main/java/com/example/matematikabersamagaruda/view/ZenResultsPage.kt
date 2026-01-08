@@ -16,52 +16,72 @@ import androidx.navigation.NavController
 fun ZenResultsPage(navController: NavController, score: Int) {
     Surface(
         modifier = Modifier.fillMaxSize(),
-        color = Color(0xFFEDF2F4)
+        color = Color(0xFFEDF2F4) // Light gray background
     ) {
-        Column(
-            modifier = Modifier.fillMaxSize().padding(24.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+        // Center the main card
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
         ) {
-            Text(
-                text = "Zen Mode Finished",
-                fontSize = 32.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color(0xFF2B2D42)
-            )
-
-            Spacer(modifier = Modifier.height(40.dp))
-
-            // Score Display Box
-            Card(
-                modifier = Modifier.fillMaxWidth().height(150.dp),
-                colors = CardDefaults.cardColors(containerColor = Color(0xFF2B2D42)),
-                shape = RoundedCornerShape(24.dp)
+            // The main dark card
+            Surface(
+                modifier = Modifier
+                    .fillMaxWidth(0.85f) // Adjust width as needed
+                    .wrapContentHeight(),
+                shape = RoundedCornerShape(24.dp),
+                color = Color(0xFF2B2D42), // Dark blue color
+                shadowElevation = 8.dp
             ) {
                 Column(
-                    modifier = Modifier.fillMaxSize(),
                     horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
+                    verticalArrangement = Arrangement.Center,
+                    modifier = Modifier.padding(vertical = 48.dp, horizontal = 24.dp)
                 ) {
-                    Text("Total Answered:", color = Color.White.copy(alpha = 0.7f), fontSize = 20.sp)
-                    Text("$score", color = Color.White, fontSize = 60.sp, fontWeight = FontWeight.Black)
-                }
-            }
+                    Text(
+                        text = "Results",
+                        fontSize = 40.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White
+                    )
 
-            Spacer(modifier = Modifier.height(60.dp))
+                    Spacer(modifier = Modifier.height(32.dp))
 
-            // Back to Main Menu Button
-            Button(
-                onClick = {
-                    navController.navigate("home") {
-                        popUpTo("home") { inclusive = true }
+                    Text(
+                        text = "$score",
+                        fontSize = 80.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White
+                    )
+
+                    Text(
+                        text = "questions answered correctly",
+                        fontSize = 18.sp,
+                        color = Color.White.copy(alpha = 0.9f)
+                    )
+
+                    Spacer(modifier = Modifier.height(48.dp))
+
+                    // Back to Main Menu Button
+                    Button(
+                        onClick = {
+                            navController.navigate("home") {
+                                popUpTo("home") { inclusive = true }
+                            }
+                        },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(64.dp),
+                        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFD90429)), // Red color
+                        shape = RoundedCornerShape(12.dp)
+                    ) {
+                        Text(
+                            text = "Back to Main Menu",
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = Color.White
+                        )
                     }
-                },
-                modifier = Modifier.fillMaxWidth().height(80.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFD90429)),
-                shape = RoundedCornerShape(16.dp)
-            ) {
-                Text("Main Menu", fontSize = 24.sp, fontWeight = FontWeight.Bold)
+                }
             }
         }
     }
